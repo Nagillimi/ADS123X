@@ -14,42 +14,41 @@
 #endif
 
 //======================== which one? ========================
-//#define ADS1232
+// #define ADS1232
 #define ADS1234
 //============================================================
 
-typedef enum ERROR_t {
+typedef enum ERROR {
 	NoERROR,
 	TIMEOUT_HIGH,     // Timeout waiting for HIGH
 	TIMEOUT_LOW,      // Timeout waiting for LOW
 	WOULD_BLOCK,      // weight not measured, measuring takes too long
 	STABLE_TIMEOUT,   // weight not stable within timeout
 	DIVIDED_by_ZERO    
-};
+} ERROR_t;
 
-typedef enum Gain{
+typedef enum Gain {
 	GAIN1 = 1,
 	GAIN2,
 	GAIN64,
-	GAIN128,
-	GAINSKIP,
-};
+	GAIN128
+} Gain;
 
-typedef enum Speed{
+typedef enum Speed {
 	SLOW = 0,
 	FAST
-};
+} Speed;
 
-typedef enum Channel{
+typedef enum Channel {
 	AIN1 = 1,
 	AIN2 = 2,
-  #if defined ADS1232
+  #ifdef ADS1232
 	TEMP = 3,
-  #else if defined ADS1234
+  #else
 	AIN3 = 3,
 	AIN4 = 4
   #endif
-};
+} Channel;
 
 class ADS123X
 {
@@ -125,17 +124,17 @@ class ADS123X
 		int _pin_DOUT;
 		int _pin_SCLK;
 		int _pin_PDWN;
-		int _pin_GAIN0;
-		int _pin_GAIN1;
+		// int _pin_GAIN0;
+		// int _pin_GAIN1;
 		int _pin_SPEED;
 		int _pin_A0;
 		int _pin_A1_or_TEMP;
 		
-	  #if defined ADS1232
+	  #ifdef ADS1232
 		float OFFSET[2] = {};	// used for tare weight
 		float SCALE[2] = {1,1};	// used to return weight in grams, kg, ounces, whatever
 		
-	  #else if defined ADS1234
+	  #else
 		float OFFSET[4] = {};	// used for tare weight
 		float SCALE[4] = {1,1,1,1};	// used to return weight in grams, kg, ounces, whatever
 	  #endif

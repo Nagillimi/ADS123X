@@ -30,7 +30,7 @@ void ADS123X::begin(
   byte pin_A0,
   byte pin_A1_or_TEMP,
   Gain gain = GAIN128,
-  Speed speed,
+  Speed speed
 ){
   _pin_DOUT = pin_DOUT;
   _pin_SCLK = pin_SCLK;
@@ -51,7 +51,7 @@ void ADS123X::begin(
   pinMode(_pin_A0, OUTPUT);
   pinMode(_pin_A1_or_TEMP, OUTPUT);
   
-  setGain(gain);
+  // setGain(gain);   // removed since held both gains held HIGH on PCB
   setSpeed(speed);
   
   power_up();
@@ -65,31 +65,30 @@ bool ADS123X::is_ready(void)
 
 void ADS123X::setGain(Gain gain)
 {
-  if(gain == GAINSKIP) return;  // added since held both gains held HIGH on PCB
   switch(gain)
   {
     case GAIN1:
     {
-      digitalWrite(_pin_GAIN1, LOW);
-      digitalWrite(_pin_GAIN0, LOW);
+      // digitalWrite(_pin_GAIN1, LOW);
+      // digitalWrite(_pin_GAIN0, LOW);
       break;
     }
     case GAIN2:
     {
-      digitalWrite(_pin_GAIN1, LOW);
-      digitalWrite(_pin_GAIN0, HIGH);
+      // digitalWrite(_pin_GAIN1, LOW);
+      // digitalWrite(_pin_GAIN0, HIGH);
       break;
     }
     case GAIN64:
     {
-      digitalWrite(_pin_GAIN1, HIGH);
-      digitalWrite(_pin_GAIN0, LOW);
+      // digitalWrite(_pin_GAIN1, HIGH);
+      // digitalWrite(_pin_GAIN0, LOW);
       break;
     }
     case GAIN128:
     {
-      digitalWrite(_pin_GAIN1, HIGH);
-      digitalWrite(_pin_GAIN0, HIGH);
+      // digitalWrite(_pin_GAIN1, HIGH);
+      // digitalWrite(_pin_GAIN0, HIGH);
       break;
     }
   }
