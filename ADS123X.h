@@ -31,7 +31,8 @@ typedef enum Gain{
 	GAIN1 = 1,
 	GAIN2,
 	GAIN64,
-	GAIN128
+	GAIN128,
+	GAINSKIP,
 };
 
 typedef enum Speed{
@@ -59,7 +60,18 @@ class ADS123X
 		virtual ~ADS123X();
 		
         // Initialize library
-        void begin(byte pin_DOUT, byte pin_SCLK, byte pin_PDWN, byte pin_GAIN0, byte pin_GAIN1, byte pin_SPEED, byte pin_A0, byte pin_A1_or_TEMP, Gain = GAIN128, Speed = SLOW);
+        void begin(
+			byte pin_DOUT,
+			byte pin_SCLK,
+			byte pin_PDWN,
+			// byte pin_GAIN0,
+			// byte pin_GAIN1,
+			byte pin_SPEED,
+			byte pin_A0,
+			byte pin_A1_or_TEMP,
+			Gain = GAIN128,
+			Speed = SLOW
+		);
 
 
 		// check if chip is ready

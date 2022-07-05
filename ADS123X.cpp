@@ -20,12 +20,23 @@ ADS123X::ADS123X() {
 ADS123X::~ADS123X() {
 }
 
-void ADS123X::begin(byte pin_DOUT, byte pin_SCLK, byte pin_PDWN, byte pin_GAIN0, byte pin_GAIN1, byte pin_SPEED, byte pin_A0, byte pin_A1_or_TEMP, Gain gain, Speed speed){
+void ADS123X::begin(
+  byte pin_DOUT,
+  byte pin_SCLK,
+  byte pin_PDWN,
+  // byte pin_GAIN0,  // removed since kept at GAIN128
+  // byte pin_GAIN1,  // removed since kept at GAIN128
+  byte pin_SPEED,
+  byte pin_A0,
+  byte pin_A1_or_TEMP,
+  Gain gain = GAIN128,
+  Speed speed,
+){
   _pin_DOUT = pin_DOUT;
   _pin_SCLK = pin_SCLK;
   _pin_PDWN = pin_PDWN;
-  _pin_GAIN0 = pin_GAIN0;
-  _pin_GAIN1 = pin_GAIN1;
+  // _pin_GAIN0 = pin_GAIN0;
+  // _pin_GAIN1 = pin_GAIN1;
   _pin_SPEED = pin_SPEED;
   _pin_A0 = pin_A0;
   _pin_A1_or_TEMP = pin_A1_or_TEMP;
@@ -34,8 +45,8 @@ void ADS123X::begin(byte pin_DOUT, byte pin_SCLK, byte pin_PDWN, byte pin_GAIN0,
   pinMode(_pin_DOUT,  INPUT_PULLUP);
   pinMode(_pin_SCLK, OUTPUT);
   pinMode(_pin_PDWN, OUTPUT);
-  pinMode(_pin_GAIN0, OUTPUT);
-  pinMode(_pin_GAIN1, OUTPUT);
+  // pinMode(_pin_GAIN0, OUTPUT);
+  // pinMode(_pin_GAIN1, OUTPUT);
   pinMode(_pin_SPEED, OUTPUT);
   pinMode(_pin_A0, OUTPUT);
   pinMode(_pin_A1_or_TEMP, OUTPUT);
@@ -54,6 +65,7 @@ bool ADS123X::is_ready(void)
 
 void ADS123X::setGain(Gain gain)
 {
+  if(gain == GAINSKIP) return;  // added since held both gains held HIGH on PCB
   switch(gain)
   {
     case GAIN1:
