@@ -140,25 +140,17 @@ void ADS123X::setChannel(Channel channel)
     }
     case AIN2:
     {
+      digitalWrite(_pin_A1_or_TEMP, HIGH);
+      digitalWrite(_pin_A0, LOW);
+      break;
+    }
+	  case AIN3:
+    {
       digitalWrite(_pin_A1_or_TEMP, LOW);
       digitalWrite(_pin_A0, HIGH);
       break;
     }
-  #if defined ADS1232
-    case TEMP:
-    {
-      digitalWrite(_pin_A1_or_TEMP, HIGH);
-      digitalWrite(_pin_A0, LOW);
-      break;
-    }
-  #elif defined ADS1234
-	case AIN3:
-    {
-      digitalWrite(_pin_A1_or_TEMP, HIGH);
-      digitalWrite(_pin_A0, LOW);
-      break;
-    }
-	case AIN4:
+	  case AIN4:
     {
       digitalWrite(_pin_A1_or_TEMP, HIGH);
       digitalWrite(_pin_A0, HIGH);
@@ -206,7 +198,7 @@ ERROR_t ADS123X::read(Channel channel,long& value, bool Calibrating)
 	}
 	waitingTime+=SettlingTimeAfterChangeChannel;
 
-	waitingTime+=600; //[ms] Add some extra time ( sometimes takes longer than what datasheet claims! )
+	// waitingTime+=600; //[ms] Add some extra time ( sometimes takes longer than what datasheet claims! )
 	
     start=millis();
     while(digitalRead(_pin_DOUT) != HIGH)
