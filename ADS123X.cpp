@@ -193,10 +193,10 @@ ERROR_t ADS123X::read(Channel channel,long& value, bool Calibrating)
 		else waitingTime=850;
 	}
 	else{
-		if(_speed==FAST) waitingTime=20;
+		if(_speed==FAST) waitingTime=12;
 		else waitingTime=150;
 	}
-	waitingTime+=SettlingTimeAfterChangeChannel;
+	// waitingTime+=SettlingTimeAfterChangeChannel;
 
 	// waitingTime+=600; //[ms] Add some extra time ( sometimes takes longer than what datasheet claims! )
 	
