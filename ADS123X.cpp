@@ -233,7 +233,8 @@ ERROR_t ADS123X::read(Channel channel,long& value, bool Calibrating)
     /* Bit 23 is acutally the sign bit. Shift by 8 to get it to the
      * right position (31), divide by 256 to restore the correct value.
      */
-    value = (value << 8) / 256;
+    // value = (value << 8) / 256;
+    value = ~(value + 1);
 
 	if(!Calibrating){
 		/* The data pin now is high or low depending on the last bit that
