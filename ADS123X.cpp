@@ -222,7 +222,7 @@ ERROR_t ADS123X::read(Channel channel,long& value, bool Calibrating)
         value = (value << 1) + digitalRead(_pin_DOUT);
         digitalWrite(_pin_SCLK, LOW);
     }
-    Serial.print(millis()-start);
+    Serial.println(millis()-start);
 	
 	if(Calibrating){
 	// 2 extra bits for calibrating
