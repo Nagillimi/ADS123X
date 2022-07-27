@@ -170,7 +170,7 @@ ERROR_t ADS123X::read(Channel channel,long& value, bool Calibrating)
 {
     int i=0;
     unsigned long start;
-	unsigned int waitingTime;
+	unsigned int waitingTime=0;
 	unsigned int SettlingTimeAfterChangeChannel=0;
 
 	if(channel!=lastChannel){
@@ -193,10 +193,10 @@ ERROR_t ADS123X::read(Channel channel,long& value, bool Calibrating)
 		else waitingTime=850;
 	}
 	else{
-		if(_speed==FAST) waitingTime=12;
+		if(_speed==FAST) // waitingTime=12;
 		else waitingTime=150;
 	}
-	// waitingTime+=SettlingTimeAfterChangeChannel;
+	waitingTime+=SettlingTimeAfterChangeChannel;
 
 	// waitingTime+=600; //[ms] Add some extra time ( sometimes takes longer than what datasheet claims! )
 	
@@ -214,13 +214,15 @@ ERROR_t ADS123X::read(Channel channel,long& value, bool Calibrating)
             return TIMEOUT_LOW; // Timeout waiting for LOW
     }
 
+    
+    start=millis();
     // Read 24 bits
     for(i=23 ; i >= 0; i--) {
         digitalWrite(_pin_SCLK, HIGH);
         value = (value << 1) + digitalRead(_pin_DOUT);
         digitalWrite(_pin_SCLK, LOW);
     }
-
+    Serial.print(millis()-start);
 	
 	if(Calibrating){
 	// 2 extra bits for calibrating
@@ -232,9 +234,9 @@ ERROR_t ADS123X::read(Channel channel,long& value, bool Calibrating)
 	
     /* Bit 23 is acutally the sign bit. Shift by 8 to get it to the
      * right position (31), divide by 256 to restore the correct value.
+     * Ben: this is correct
      */
-    // value = (value << 8) / 256;
-    value = ~(value + 1);
+    value = (value << 8) / 256;
 
 	if(!Calibrating){
 		/* The data pin now is high or low depending on the last bit that
